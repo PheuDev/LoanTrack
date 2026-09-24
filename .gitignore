@@ -1,0 +1,25 @@
+# Dépendances
+node_modules/
+
+# Variables d'environnement (contiennent des secrets)
+.env
+.env.local
+.env.production
+
+# Build frontend
+client/dist/
+
+# Logs
+*.log
+npm-debug.log*
+
+# Système
+.DS_Store
+Thumbs.db
+
+# Éditeurs
+.vscode/
+.idea/
+
+# Drizzle — migrations générées (à exclure ou inclure selon préférence)
+# server/src/db/migrations/*.sql

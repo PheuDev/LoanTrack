@@ -1,0 +1,10 @@
+﻿
+> loantrack-server@1.0.0 db:seed
+> node src/db/seed.js
+
+D├⌐marrage du seedΓÇª
+- Utilisateur admin : d├⌐j├á pr├⌐sent.
+- Param├¿tres globaux : 3 valeur(s) initialis├⌐e(s).
+- Tranches de r├¿gles : 3 cr├⌐├⌐es.
+- Taux de change : 2 paire(s) de parit├⌐ enregistr├⌐e(s).
+Seed termin├⌐.

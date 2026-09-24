@@ -1,0 +1,22 @@
+services:
+  # MySQL 8 pour le développement.
+  # NB : l'environnement retenu sur cette machine est WAMP : MySQL y tourne
+  # déjà comme service Windows (port 3306). Ce compose est fourni en alternative
+  # pour ceux qui préfèrent Docker.
+  mysql:
+    image: mysql:8
+    environment:
+      MYSQL_ROOT_PASSWORD: loantrack
+      MYSQL_DATABASE: loantrack
+      MYSQL_USER: loantrack
+      MYSQL_PASSWORD: loantrack
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+
+volumes:
+  mysql_data:

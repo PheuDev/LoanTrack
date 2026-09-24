@@ -1,0 +1,29 @@
+.page { display: flex; flex-direction: column; gap: var(--space-6); }
+.back { color: var(--color-primary); font-size: var(--font-size-sm); cursor: pointer; align-self: flex-start; margin-bottom: var(--space-2); }
+.header { display: flex; flex-direction: column; gap: var(--space-4); }
+.headerMain { display: flex; align-items: center; justify-content: space-between; gap: var(--space-4); flex-wrap: wrap; }
+.clientInfo { display: flex; align-items: center; gap: var(--space-4); }
+.avatar { width: 56px; height: 56px; border-radius: 50%; background-color: var(--color-primary-light); color: var(--color-primary); display: flex; align-items: center; justify-content: center; font-size: var(--font-size-lg); font-weight: 700; flex-shrink: 0; }
+.name { font-size: var(--font-size-2xl); font-weight: 700; color: var(--color-text); }
+.phone { font-size: var(--font-size-sm); color: var(--color-text-muted); margin-top: var(--space-1); }
+.headerActions { display: flex; align-items: center; gap: var(--space-3); flex-wrap: wrap; }
+.btnPrimary { padding: var(--space-2) var(--space-5); background-color: var(--color-primary); color: white; border-radius: var(--radius-md); font-size: var(--font-size-sm); font-weight: 600; text-decoration: none; }
+.btnSecondary { padding: var(--space-2) var(--space-5); border: 1px solid var(--color-border); color: var(--color-text); border-radius: var(--radius-md); font-size: var(--font-size-sm); font-weight: 500; text-decoration: none; }
+.infoCard { background-color: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg); padding: var(--space-6); }
+.sectionTitle { font-size: var(--font-size-lg); font-weight: 600; color: var(--color-text); margin-bottom: var(--space-4); }
+.infoGrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: var(--space-4); }
+.infoItem { display: flex; flex-direction: column; gap: var(--space-1); }
+.infoLabel { font-size: var(--font-size-xs); font-weight: 600; color: var(--color-text-muted); text-transform: uppercase; letter-spacing: 0.05em; }
+.infoValue { font-size: var(--font-size-sm); color: var(--color-text); }
+.loansSection { display: flex; flex-direction: column; gap: var(--space-4); }
+.empty { color: var(--color-text-muted); font-size: var(--font-size-sm); }
+.loansList { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: var(--space-4); }
+.loanCard { display: flex; flex-direction: column; gap: var(--space-4); padding: var(--space-5); background-color: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg); text-decoration: none; transition: box-shadow 0.15s, border-color 0.15s; }
+.loanCard:hover { box-shadow: var(--shadow-md); border-color: var(--color-primary); }
+.loanTop { display: flex; align-items: center; justify-content: space-between; }
+.loanLevel { font-size: var(--font-size-sm); font-weight: 600; color: var(--color-text-muted); }
+.loanAmounts { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-4); }
+.amountLabel { font-size: var(--font-size-xs); color: var(--color-text-muted); }
+.amountValue { font-size: var(--font-size-md); font-weight: 600; color: var(--color-text); margin-top: var(--space-1); }
+.loanDates { display: flex; align-items: center; justify-content: space-between; font-size: var(--font-size-xs); color: var(--color-text-muted); flex-wrap: wrap; gap: var(--space-2); }
+.retard { color: var(--color-danger); font-weight: 600; }

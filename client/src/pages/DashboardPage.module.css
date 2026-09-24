@@ -1,0 +1,28 @@
+.page { display: flex; flex-direction: column; gap: var(--space-8); }
+.header { display: flex; align-items: flex-start; justify-content: space-between; }
+.title { font-size: var(--font-size-2xl); font-weight: 700; color: var(--color-text); }
+.subtitle { font-size: var(--font-size-sm); color: var(--color-text-muted); margin-top: var(--space-1); }
+.kpiGrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: var(--space-4); }
+.chartsRow { display: grid; grid-template-columns: 1fr 380px; gap: var(--space-6); }
+.chartCard { background-color: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg); padding: var(--space-6); }
+.chartTitle { font-size: var(--font-size-md); font-weight: 600; color: var(--color-text); margin-bottom: var(--space-4); }
+.section { display: flex; flex-direction: column; gap: var(--space-4); }
+.sectionHeader { display: flex; align-items: center; justify-content: space-between; }
+.sectionTitle { font-size: var(--font-size-lg); font-weight: 600; color: var(--color-text); }
+.seeAll { font-size: var(--font-size-sm); color: var(--color-primary); text-decoration: none; font-weight: 500; }
+.seeAll:hover { text-decoration: underline; }
+.tableWrapper { background-color: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg); overflow: hidden; overflow-x: auto; }
+.table { width: 100%; border-collapse: collapse; }
+.table th { padding: var(--space-3) var(--space-5); text-align: left; font-size: var(--font-size-xs); font-weight: 600; color: var(--color-text-muted); text-transform: uppercase; letter-spacing: 0.05em; border-bottom: 1px solid var(--color-border); background-color: var(--color-surface-hover); white-space: nowrap; }
+.table td { padding: var(--space-4) var(--space-5); border-bottom: 1px solid var(--color-border); font-size: var(--font-size-sm); vertical-align: middle; }
+.table tr:last-child td { border-bottom: none; }
+.table tr:hover td { background-color: var(--color-surface-hover); }
+.clientName { font-weight: 500; color: var(--color-text); }
+.muted { color: var(--color-text-muted); white-space: nowrap; }
+.retard { color: var(--color-danger); font-weight: 600; white-space: nowrap; }
+.solde { font-weight: 600; color: var(--color-danger); }
+.link { font-size: var(--font-size-sm); color: var(--color-primary); font-weight: 500; text-decoration: none; }
+.link:hover { text-decoration: underline; }
+.empty { text-align: center; color: var(--color-text-muted); padding: var(--space-8) !important; }
+@media (max-width: 960px) { .chartsRow { grid-template-columns: 1fr; } }
+@media (max-width: 640px) { .kpiGrid { grid-template-columns: 1fr 1fr; } }

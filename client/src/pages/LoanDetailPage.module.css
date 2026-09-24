@@ -1,0 +1,54 @@
+.page { display: flex; flex-direction: column; gap: var(--space-6); }
+.back { color: var(--color-primary); font-size: var(--font-size-sm); cursor: pointer; align-self: flex-start; }
+.header { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--space-4); flex-wrap: wrap; }
+.headerLeft { display: flex; flex-direction: column; gap: var(--space-2); }
+.loanId { font-size: var(--font-size-sm); color: var(--color-text-muted); font-weight: 500; }
+.clientLink { font-size: var(--font-size-xl); font-weight: 700; color: var(--color-text); text-decoration: none; }
+.clientLink:hover { color: var(--color-primary); }
+.badges { display: flex; align-items: center; gap: var(--space-3); }
+.levelBadge { padding: var(--space-1) var(--space-3); background-color: var(--color-primary-light); color: var(--color-primary); border-radius: var(--radius-full); font-size: var(--font-size-xs); font-weight: 600; }
+.headerActions { display: flex; gap: var(--space-3); }
+.amountsGrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: var(--space-4); }
+.amountCard { padding: var(--space-5); background-color: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg); }
+.amountCardHighlight { border-color: var(--color-primary); background-color: var(--color-primary-light); }
+.amountLabel { font-size: var(--font-size-xs); color: var(--color-text-muted); font-weight: 600; text-transform: uppercase; margin-bottom: var(--space-2); }
+.amountValue { font-size: var(--font-size-xl); font-weight: 700; color: var(--color-text); }
+.danger { color: var(--color-danger) !important; }
+.progressSection { background-color: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg); padding: var(--space-5); }
+.progressHeader { display: flex; justify-content: space-between; margin-bottom: var(--space-3); font-size: var(--font-size-sm); }
+.progressLabel { color: var(--color-text-muted); }
+.progressPercent { font-weight: 700; color: var(--color-primary); }
+.progressBar { height: 8px; background-color: var(--color-border); border-radius: var(--radius-full); overflow: hidden; }
+.progressFill { height: 100%; background-color: var(--color-primary); border-radius: var(--radius-full); transition: width 0.4s ease; }
+.datesRow { display: flex; gap: var(--space-6); flex-wrap: wrap; padding: var(--space-5); background-color: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg); }
+.dateItem { display: flex; flex-direction: column; gap: var(--space-1); }
+.dateLabel { font-size: var(--font-size-xs); color: var(--color-text-muted); font-weight: 600; text-transform: uppercase; }
+.dateValue { font-size: var(--font-size-md); font-weight: 600; color: var(--color-text); }
+.actionsCard, .penaltyCard { background-color: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg); padding: var(--space-6); display: flex; flex-direction: column; gap: var(--space-4); }
+.sectionTitle { font-size: var(--font-size-md); font-weight: 600; color: var(--color-text); }
+.repForm { display: flex; flex-direction: column; gap: var(--space-4); }
+.repFields { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-4); }
+.field { display: flex; flex-direction: column; gap: var(--space-2); }
+.label { font-size: var(--font-size-sm); font-weight: 500; color: var(--color-text); }
+.input { padding: var(--space-3) var(--space-4); border: 1px solid var(--color-border); border-radius: var(--radius-md); font-size: var(--font-size-sm); color: var(--color-text); background-color: var(--color-bg); outline: none; }
+.input:focus { border-color: var(--color-border-focus); }
+.penaltyInfo { font-size: var(--font-size-sm); color: var(--color-text-muted); background-color: var(--color-bg); padding: var(--space-3) var(--space-4); border-radius: var(--radius-md); }
+.btnPrimary { padding: var(--space-3) var(--space-6); background-color: var(--color-primary); color: white; border-radius: var(--radius-md); font-size: var(--font-size-sm); font-weight: 600; cursor: pointer; align-self: flex-start; }
+.btnPrimary:hover:not(:disabled) { background-color: var(--color-primary-hover); }
+.btnPrimary:disabled { opacity: 0.5; cursor: not-allowed; }
+.btnWarning { padding: var(--space-3) var(--space-6); background-color: var(--color-warning); color: white; border-radius: var(--radius-md); font-size: var(--font-size-sm); font-weight: 600; cursor: pointer; align-self: flex-start; }
+.btnWarning:disabled { opacity: 0.5; cursor: not-allowed; }
+.btnDanger { padding: var(--space-2) var(--space-5); background-color: var(--color-danger-light); color: var(--color-danger); border: 1px solid var(--color-danger); border-radius: var(--radius-md); font-size: var(--font-size-sm); font-weight: 500; cursor: pointer; }
+.tabs { display: flex; gap: 0; border-bottom: 2px solid var(--color-border); }
+.tab { padding: var(--space-3) var(--space-5); font-size: var(--font-size-sm); font-weight: 500; color: var(--color-text-muted); cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -2px; transition: all 0.15s; }
+.tab:hover { color: var(--color-primary); }
+.tabActive { color: var(--color-primary); border-bottom-color: var(--color-primary); }
+.tableWrapper { background-color: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg); overflow: hidden; }
+.table { width: 100%; border-collapse: collapse; }
+.table th { padding: var(--space-3) var(--space-5); text-align: left; font-size: var(--font-size-xs); font-weight: 600; color: var(--color-text-muted); text-transform: uppercase; border-bottom: 1px solid var(--color-border); background-color: var(--color-surface-hover); }
+.table td { padding: var(--space-4) var(--space-5); border-bottom: 1px solid var(--color-border); font-size: var(--font-size-sm); }
+.table tr:last-child td { border-bottom: none; }
+.date { color: var(--color-text-muted); }
+.amount { font-weight: 600; color: var(--color-success); }
+.empty { text-align: center; color: var(--color-text-muted); padding: var(--space-8) !important; }
+@media (max-width: 640px) { .repFields { grid-template-columns: 1fr; } .amountsGrid { grid-template-columns: 1fr 1fr; } }

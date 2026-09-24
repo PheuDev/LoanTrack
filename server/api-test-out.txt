@@ -1,0 +1,23 @@
+POST /auth/login → HTTP 200 {"data":{"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTc5MDEwNzU0NywiZXhwIjoxNzkwMTM2MzQ3fQ.l_Z_BDbco4BlZ3ij5k05dFSduFrViLconbEIIjzSqHo","user":{"id":1,"username":"admin"}}}
+
+GET /settings → HTTP 200 {"data":{"settings":{"app_name":"LoanTrack","default_currency":"XOF","default_language":"fr"},"currencies":[{"code":"XOF","label":"Franc CFA","symbol":"FCFA","decimals":0,"minorPerMajor":1},{"code":"EUR","label":"Euro","symbol":"€","decimals":2,"minorPerMajor":100},{"code":"USD","label":"Dollar US","symbol":"$","decimals":2,"minorPerMajor":100}],"taux":{"base":"XOF","equivalences":{"XOF":{"taux":1,"inverse":false},"EUR":{"taux":0.0015244901723741038,"inverse":false},"USD":null},"fetchedAt":"2026-09-22T18:38:29.000Z"}}}
+
+GET /rules → HTTP 200 {"data":{"tiers":[{"id":1,"label":"Tranche 1 — Découverte","minAmount":4998,"maxAmount":24999,"interestRateBp":3000,"tauxPourcent":30,"durationDays":7,"minPriorRepaidLoans":0,"penaltyRateBpDaily":500,"maxActiveLoansPerClient":1,"isActive":true,"createdAt":"2026-09-22T18:15:46.000Z","updatedAt":"2026-09-22T18:38:29.000Z"},{"id":2,"label":"Tranche 2 — Confirmée","minAmount":24999,"maxAmount":49997,"interestRateBp":2500,"tauxPourcent":25,"durationDays":10,"minPriorRepaidLoans":1,"penaltyRateBpDaily":500,"maxActiveLoansPerClient":1,"isActive":true,"createdAt":"2026-09-22T18:15:46.000Z","updatedAt"
+
+GET /rules?amount=20000 → HTTP 200 {"data":{"tiers":[{"id":1,"label":"Tranche 1 — Découverte","minAmount":4998,"maxAmount":24999,"interestRateBp":3000,"tauxPourcent":30,"durationDays":7,"minPriorRepaidLoans":0,"penaltyRateBpDaily":500,"maxActiveLoansPerClient":1,"isActive":true,"createdAt":"2026-09-22T18:15:46.000Z","updatedAt":"2026-09-22T18:38:29.000Z"},{"id":2,"label":"Tranche 2 — Confirmée","minAmount":24999,"maxAmount":49997,"interestRateBp":2500,"tauxPourcent":25,"durationDays":10,"minPriorRepaidLoans":1,"penaltyRateBpDaily":500,"maxActiveLoansPerClient":1,"isActive":true,"createdAt":"2026-09-22T18:15:46.000Z","updatedAt"
+
+POST /loans { amount: 20000 } → HTTP 409 {"error":{"message":"Ce client a déjà 1 prêt en cours (maximum 1 pour cette tranche).","code":"CLIENT_NOT_ELIGIBLE"}}
+
+POST /loans (2e prêt simultané) → HTTP 409 {"error":{"message":"Ce client a déjà 1 prêt en cours (maximum 1 pour cette tranche).","code":"CLIENT_NOT_ELIGIBLE"}}
+
+POST /settings/currency { EUR } → HTTP 200 {"data":{"settings":{"app_name":"LoanTrack","default_currency":"EUR","default_language":"fr"},"conversion":{"de":"XOF","vers":"EUR","taux":0.0015244901723741038,"origineTaux":"cache","compteur":{"tranches":3,"prets":2,"remboursements":1,"penalites":0},"tauxEnregistre":{"pair":"XOF_EUR","rate":"0.0015244901723741038","source":"cache","fetchedAt":"2026-09-22T20:05:47.552Z"}}}}
+
+GET /loans (après conversion) → HTTP 200 {"data":[{"id":1,"client":{"id":1,"firstName":"Awa","lastName":"Diallo","phone":"0700000001"},"tierId":null,"tierLabel":"Niveau 1","level":1,"currency":"EUR","principal":3811,"interestAmount":1143,"totalDue":4954,"penalties":0,"soldeRestant":3430,"totalRembourse":1524,"status":"actif","startDate":"2026-09-20T00:00:00.000Z","dueDate":"2026-09-27T00:00:00.000Z","joursRetard":0,"createdAt":"2026-09-20T01:15:46.000Z"},{"id":2,"client":{"id":2,"firstName":"Yao","lastName":"Kouassi","phone":"0700000002"},"tierId":null,"tierLabel":"Niveau 2","level":2,"currency":"EUR","principal":7622,"interestAmount
+
+POST /settings/currency { XOF } → HTTP 200 {"data":{"settings":{"app_name":"LoanTrack","default_currency":"XOF","default_language":"fr"},"conversion":{"de":"EUR","vers":"XOF","taux":655.957,"origineTaux":"cache","compteur":{"tranches":3,"prets":2,"remboursements":1,"penalites":0},"tauxEnregistre":{"pair":"EUR_XOF","rate":"655.957","source":"cache","fetchedAt":"2026-09-22T20:05:47.612Z"}}}}
+
+GET /loans/undefined → HTTP 404 {"error":{"message":"Prêt introuvable.","code":"LOAN_NOT_FOUND"}}
+
+GET /dashboard → HTTP 200 {"data":{"kpis":{"loansActifs":2,"loansEnRetard":0,"loansSoldes":0,"montantTotalPrete":74996,"montantRecupere":9997,"montantRestantTotal":85000},"repartitionStatuts":[{"statut":"actif","count":2,"pourcentage":100},{"statut":"en_retard","count":0,"pourcentage":0},{"statut":"solde","count":0,"pourcentage":0}],"evolutionMensuelle":[{"mois":"2026-04","count":0},{"mois":"2026-05","count":0},{"mois":"2026-06","count":0},{"mois":"2026-07","count":0},{"mois":"2026-08","count":0},{"mois":"2026-09","count":2}],"pretsEnRetard":[],"derniersPrets":[{"id":1,"client":{"id":1,"firstName":"Awa","lastName":"Dia
+
+PATCH /settings { default_currency } → HTTP 400 {"error":{"message":"Aucun paramètre valide fourni.","code":"INVALID_SETTINGS"}}

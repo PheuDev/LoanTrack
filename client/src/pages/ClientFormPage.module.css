@@ -1,0 +1,19 @@
+.page { display: flex; flex-direction: column; gap: var(--space-6); max-width: 640px; }
+.header { display: flex; flex-direction: column; gap: var(--space-2); }
+.back { color: var(--color-primary); font-size: var(--font-size-sm); cursor: pointer; align-self: flex-start; }
+.title { font-size: var(--font-size-2xl); font-weight: 700; color: var(--color-text); }
+.card { background-color: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg); padding: var(--space-8); display: flex; flex-direction: column; gap: var(--space-6); }
+.form { display: flex; flex-direction: column; gap: var(--space-5); }
+.row { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-4); }
+.field { display: flex; flex-direction: column; gap: var(--space-2); }
+.label { font-size: var(--font-size-sm); font-weight: 500; color: var(--color-text); }
+.input, .textarea { padding: var(--space-3) var(--space-4); border: 1px solid var(--color-border); border-radius: var(--radius-md); font-size: var(--font-size-sm); color: var(--color-text); background-color: var(--color-bg); outline: none; transition: border-color 0.15s; width: 100%; }
+.input:focus, .textarea:focus { border-color: var(--color-border-focus); }
+.textarea { resize: vertical; font-family: inherit; }
+.actions { display: flex; justify-content: flex-end; gap: var(--space-3); padding-top: var(--space-4); border-top: 1px solid var(--color-border); }
+.btnPrimary { padding: var(--space-3) var(--space-6); background-color: var(--color-primary); color: white; border-radius: var(--radius-md); font-size: var(--font-size-sm); font-weight: 600; cursor: pointer; transition: background-color 0.15s; }
+.btnPrimary:hover:not(:disabled) { background-color: var(--color-primary-hover); }
+.btnPrimary:disabled { opacity: 0.5; cursor: not-allowed; }
+.btnSecondary { padding: var(--space-3) var(--space-6); background-color: var(--color-surface); color: var(--color-text); border: 1px solid var(--color-border); border-radius: var(--radius-md); font-size: var(--font-size-sm); font-weight: 500; cursor: pointer; transition: background-color 0.15s; }
+.btnSecondary:hover { background-color: var(--color-surface-hover); }
+@media (max-width: 480px) { .row { grid-template-columns: 1fr; } }

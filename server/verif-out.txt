@@ -1,0 +1,5 @@
+users (1) => [{"id":1,"username":"admin","display_name":null}]
+app_settings (3) => [{"key":"app_name","value":"LoanTrack"},{"key":"default_currency","value":"XOF"},{"key":"default_language","value":"fr"}]
+loan_tiers (3) => [{"id":1,"label":"Tranche 1 — Découverte","min_amount":5000,"max_amount":25000,"interest_rate_bp":3000,"duration_days":7,"min_prior_repaid_loans":0,"is_active":1},{"id":2,"label":"Tranche 2 — Confirmée","min_amount":25001,"max_amount":50000,"interest_rate_bp":2500,"duration_days":10,"min_prior_repaid_loans":1,"is_active":1},{"id":3,"label":"Tranche 3 — Privilège","min_amount":50001,"max_amount":75000,"interest_rate_bp":2000,"duration_days":15,"min_prior_repaid_loans":2,"is_active":1}]
+exchange_rates (2) => [{"pair":"EUR_XOF","rate":"655.957","source":"parite"},{"pair":"XOF_EUR","rate":"0.0015244901723741038","source":"parite"}]
+loans (2) => [{"id":1,"level":1,"tier_id":null,"principal":25000,"interest_amount":7500,"total_due":32500,"currency":"XOF","status":"actif"},{"id":2,"level":2,"tier_id":null,"principal":50000,"interest_amount":12500,"total_due":62500,"currency":"XOF","status":"actif"}]

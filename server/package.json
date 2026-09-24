@@ -1,0 +1,28 @@
+{
+  "name": "loantrack-server",
+  "version": "1.0.0",
+  "description": "API backend LoanTrack - Express + Drizzle ORM",
+  "type": "module",
+  "scripts": {
+    "dev": "nodemon src/index.js",
+    "start": "node src/index.js",
+    "test": "vitest run",
+    "db:push": "drizzle-kit push",
+    "db:seed": "node src/db/seed.js"
+  },
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "drizzle-orm": "^0.36.4",
+    "express": "^4.21.1",
+    "jsonwebtoken": "^9.0.2",
+    "mysql2": "^3.24.4",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "drizzle-kit": "^0.28.1",
+    "nodemon": "^3.1.7",
+    "vitest": "^2.1.8"
+  }
+}

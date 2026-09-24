@@ -1,0 +1,217 @@
+/* Système de thème LoanTrack
+ * Toutes les couleurs de l'application passent par ces variables.
+ * Les composants n'utilisent jamais de valeurs hardcodées — uniquement var(--color-*).
+ * Le thème est basculé en changeant data-theme="light"|"dark" sur <html>.
+ */
+
+/* ─── Thème clair ─────────────────────────────────────────────────── */
+:root[data-theme="light"] {
+  /* Arrière-plans */
+  --color-bg:            #f1f5f9;
+  --color-surface:       #ffffff;
+  --color-surface-hover: #f8fafc;
+
+  /* Bordures */
+  --color-border:        #e2e8f0;
+  --color-border-focus:  #93c5fd;
+
+  /* Texte */
+  --color-text:          #0f172a;
+  --color-text-muted:    #64748b;
+  --color-text-inverse:  #ffffff;
+
+  /* Couleur principale (bleu) */
+  --color-primary:       #2563eb;
+  --color-primary-hover: #1d4ed8;
+  --color-primary-light: #dbeafe;
+
+  /* Danger / erreur */
+  --color-danger:        #dc2626;
+  --color-danger-light:  #fee2e2;
+
+  /* Succès */
+  --color-success:       #16a34a;
+  --color-success-light: #dcfce7;
+
+  /* Avertissement */
+  --color-warning:       #d97706;
+  --color-warning-light: #fef3c7;
+
+  /* ── Statuts des prêts et clients ────────────────────────────────── */
+  /* actif — vert */
+  --color-status-actif-text:   #15803d;
+  --color-status-actif-bg:     #dcfce7;
+
+  /* en_retard — rouge */
+  --color-status-retard-text:  #b91c1c;
+  --color-status-retard-bg:    #fee2e2;
+
+  /* solde — bleu */
+  --color-status-solde-text:   #1d4ed8;
+  --color-status-solde-bg:     #dbeafe;
+
+  /* annule — gris */
+  --color-status-annule-text:  #475569;
+  --color-status-annule-bg:    #f1f5f9;
+
+  /* suspendu — orange */
+  --color-status-suspendu-text: #92400e;
+  --color-status-suspendu-bg:   #fef3c7;
+
+  /* ── Graphiques Recharts ─────────────────────────────────────────── */
+  --color-chart-actif:   #2563eb;
+  --color-chart-retard:  #dc2626;
+  --color-chart-solde:   #16a34a;
+  --color-chart-line:    #2563eb;
+  --color-chart-grid:    #e2e8f0;
+
+  /* ── Sidebar ─────────────────────────────────────────────────────── */
+  --color-sidebar-bg:        #1e293b;
+  --color-sidebar-text:      #94a3b8;
+  --color-sidebar-text-active: #ffffff;
+  --color-sidebar-item-active: #2563eb;
+  --color-sidebar-item-hover:  rgba(255, 255, 255, 0.05);
+
+  /* ── Typographie ─────────────────────────────────────────────────── */
+  --font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-size-xs:  0.75rem;   /* 12px */
+  --font-size-sm:  0.875rem;  /* 14px */
+  --font-size-md:  1rem;      /* 16px */
+  --font-size-lg:  1.125rem;  /* 18px */
+  --font-size-xl:  1.25rem;   /* 20px */
+  --font-size-2xl: 1.5rem;    /* 24px */
+  --font-size-3xl: 1.875rem;  /* 30px */
+
+  /* ── Espacements ─────────────────────────────────────────────────── */
+  --space-1:  0.25rem;   /* 4px */
+  --space-2:  0.5rem;    /* 8px */
+  --space-3:  0.75rem;   /* 12px */
+  --space-4:  1rem;      /* 16px */
+  --space-5:  1.25rem;   /* 20px */
+  --space-6:  1.5rem;    /* 24px */
+  --space-8:  2rem;      /* 32px */
+  --space-10: 2.5rem;    /* 40px */
+  --space-12: 3rem;      /* 48px */
+
+  /* ── Rayons de bordure ───────────────────────────────────────────── */
+  --radius-sm: 0.25rem;   /* 4px */
+  --radius-md: 0.5rem;    /* 8px */
+  --radius-lg: 0.75rem;   /* 12px */
+  --radius-xl: 1rem;      /* 16px */
+  --radius-full: 9999px;
+
+  /* ── Ombres ──────────────────────────────────────────────────────── */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+
+  /* ── Layout ──────────────────────────────────────────────────────── */
+  --sidebar-width: 240px;
+  --header-height: 64px;
+}
+
+/* ─── Thème sombre ────────────────────────────────────────────────── */
+:root[data-theme="dark"] {
+  /* Arrière-plans */
+  --color-bg:            #0f172a;
+  --color-surface:       #1e293b;
+  --color-surface-hover: #263348;
+
+  /* Bordures */
+  --color-border:        #334155;
+  --color-border-focus:  #3b82f6;
+
+  /* Texte */
+  --color-text:          #f1f5f9;
+  --color-text-muted:    #94a3b8;
+  --color-text-inverse:  #0f172a;
+
+  /* Couleur principale (bleu) */
+  --color-primary:       #3b82f6;
+  --color-primary-hover: #60a5fa;
+  --color-primary-light: #1e3a5f;
+
+  /* Danger */
+  --color-danger:        #f87171;
+  --color-danger-light:  #3b1515;
+
+  /* Succès */
+  --color-success:       #4ade80;
+  --color-success-light: #14321e;
+
+  /* Avertissement */
+  --color-warning:       #fbbf24;
+  --color-warning-light: #3b2800;
+
+  /* ── Statuts ────────────────────────────────────────────── */
+  --color-status-actif-text:   #4ade80;
+  --color-status-actif-bg:     #14321e;
+
+  --color-status-retard-text:  #f87171;
+  --color-status-retard-bg:    #3b1515;
+
+  --color-status-solde-text:   #60a5fa;
+  --color-status-solde-bg:     #1e3a5f;
+
+  --color-status-annule-text:  #94a3b8;
+  --color-status-annule-bg:    #1e293b;
+
+  --color-status-suspendu-text: #fbbf24;
+  --color-status-suspendu-bg:   #3b2800;
+
+  /* ── Graphiques ─────────────────────────────────────────── */
+  --color-chart-actif:   #3b82f6;
+  --color-chart-retard:  #f87171;
+  --color-chart-solde:   #4ade80;
+  --color-chart-line:    #3b82f6;
+  --color-chart-grid:    #334155;
+
+  /* ── Sidebar ────────────────────────────────────────────── */
+  --color-sidebar-bg:          #0f172a;
+  --color-sidebar-text:        #64748b;
+  --color-sidebar-text-active: #f1f5f9;
+  --color-sidebar-item-active: #3b82f6;
+  --color-sidebar-item-hover:  rgba(255, 255, 255, 0.05);
+
+  /* Typographie, espacements, rayons, layout : identiques au thème clair */
+  --font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-size-xs:  0.75rem;
+  --font-size-sm:  0.875rem;
+  --font-size-md:  1rem;
+  --font-size-lg:  1.125rem;
+  --font-size-xl:  1.25rem;
+  --font-size-2xl: 1.5rem;
+  --font-size-3xl: 1.875rem;
+
+  --space-1:  0.25rem;
+  --space-2:  0.5rem;
+  --space-3:  0.75rem;
+  --space-4:  1rem;
+  --space-5:  1.25rem;
+  --space-6:  1.5rem;
+  --space-8:  2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+
+  --radius-sm:   0.25rem;
+  --radius-md:   0.5rem;
+  --radius-lg:   0.75rem;
+  --radius-xl:   1rem;
+  --radius-full: 9999px;
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -2px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -4px rgba(0, 0, 0, 0.3);
+
+  --sidebar-width: 240px;
+  --header-height: 64px;
+}
+
+/* ─── Styles de base du body ──────────────────────────────────────── */
+body {
+  font-family: var(--font-family);
+  font-size: var(--font-size-md);
+  color: var(--color-text);
+  background-color: var(--color-bg);
+  transition: background-color 0.2s ease, color 0.2s ease;
+}

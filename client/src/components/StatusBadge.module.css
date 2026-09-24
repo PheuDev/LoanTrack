@@ -1,0 +1,34 @@
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-full);
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.actif {
+  color: var(--color-status-actif-text);
+  background-color: var(--color-status-actif-bg);
+}
+
+.en-retard {
+  color: var(--color-status-retard-text);
+  background-color: var(--color-status-retard-bg);
+}
+
+.solde {
+  color: var(--color-status-solde-text);
+  background-color: var(--color-status-solde-bg);
+}
+
+.annule {
+  color: var(--color-status-annule-text);
+  background-color: var(--color-status-annule-bg);
+}
+
+.suspendu {
+  color: var(--color-status-suspendu-text);
+  background-color: var(--color-status-suspendu-bg);
+}
