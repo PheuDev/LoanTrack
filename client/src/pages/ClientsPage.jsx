@@ -4,15 +4,15 @@ import { getClients } from '../api/clients.js';
 import StatusBadge from '../components/StatusBadge.jsx';
 import LoadingSpinner from '../components/LoadingSpinner.jsx';
 import ErrorMessage from '../components/ErrorMessage.jsx';
-import { formatFCFA, formatDate } from '../utils/format.js';
+import { formatDate } from '../utils/format.js';
 import styles from './ClientsPage.module.css';
 
 export default function ClientsPage() {
-  const [clients, setClients]   = useState([]);
-  const [loading, setLoading]   = useState(true);
-  const [error, setError]       = useState('');
+  const [clients, setClients]           = useState([]);
+  const [loading, setLoading]           = useState(true);
+  const [error, setError]               = useState('');
   const [statusFilter, setStatusFilter] = useState('');
-  const [search, setSearch]     = useState('');
+  const [search, setSearch]             = useState('');
 
   useEffect(() => {
     loadClients();
@@ -22,8 +22,7 @@ export default function ClientsPage() {
     setLoading(true);
     setError('');
     try {
-      const data = await getClients();
-      setClients(data);
+      setClients(await getClients());
     } catch (err) {
       setError(err.message);
     } finally {
@@ -31,15 +30,18 @@ export default function ClientsPage() {
     }
   }
 
-  // Filtrage côté frontend
+  // Filtrage côté frontend — instantané, pas de rechargement
   const clientsFiltres = clients.filter((c) => {
-    const matchStatus = !statusFilter || c.status === statusFilter;
-    const terme = search.toLowerCase();
-    const matchSearch = !search ||
-      c.firstName.toLowerCase().includes(terme) ||
-      c.lastName.toLowerCase().includes(terme) ||
-      c.phone.includes(terme);
-    return matchStatus && matchSearch;
+    if (statusFilter && c.status !== statusFilter) return false;
+    if (search) {
+      const terme = search.toLowerCase();
+      return (
+        c.firstName.toLowerCase().includes(terme) ||
+        c.lastName.toLowerCase().includes(terme) ||
+        c.phone.includes(terme)
+      );
+    }
+    return true;
   });
 
   return (
@@ -48,15 +50,14 @@ export default function ClientsPage() {
         <div>
           <h1 className={styles.title}>Clients</h1>
           <p className={styles.subtitle}>
-            {clients.length} client{clients.length !== 1 ? 's' : ''} enregistré{clients.length !== 1 ? 's' : ''}
+            {clientsFiltres.length} client{clientsFiltres.length !== 1 ? 's' : ''}
+            {search || statusFilter ? ' trouvé' + (clientsFiltres.length !== 1 ? 's' : '') : ' enregistré' + (clients.length !== 1 ? 's' : '')}
           </p>
         </div>
-        <Link to="/clients/new" className={styles.btnPrimary}>
-          + Nouveau client
-        </Link>
+        <Link to="/clients/new" className={styles.btnPrimary}>+ Nouveau client</Link>
       </div>
 
-      {/* Filtres */}
+      {/* Filtres — réactifs */}
       <div className={styles.filters}>
         <input
           type="search"
@@ -64,6 +65,7 @@ export default function ClientsPage() {
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           className={styles.searchInput}
+          aria-label="Rechercher un client"
         />
         <select
           value={statusFilter}
@@ -77,7 +79,6 @@ export default function ClientsPage() {
         </select>
       </div>
 
-      {/* Contenu */}
       {loading && <LoadingSpinner message="Chargement des clients…" />}
       {error   && <ErrorMessage message={error} onRetry={loadClients} />}
 
@@ -96,16 +97,14 @@ export default function ClientsPage() {
             <tbody>
               {clientsFiltres.length === 0 ? (
                 <tr>
-                  <td colSpan={5} className={styles.empty}>
-                    Aucun client trouvé.
-                  </td>
+                  <td colSpan={5} className={styles.empty}>Aucun client trouvé.</td>
                 </tr>
               ) : (
                 clientsFiltres.map((client) => (
                   <tr key={client.id}>
                     <td>
                       <div className={styles.clientName}>
-                        <div className={styles.avatar}>
+                        <div className={styles.avatar} aria-hidden="true">
                           {client.firstName.charAt(0)}{client.lastName.charAt(0)}
                         </div>
                         <div>
@@ -119,14 +118,10 @@ export default function ClientsPage() {
                       </div>
                     </td>
                     <td className={styles.phone}>{client.phone}</td>
-                    <td>
-                      <StatusBadge status={client.status} type="client" />
-                    </td>
+                    <td><StatusBadge status={client.status} type="client" /></td>
                     <td className={styles.date}>{formatDate(client.createdAt)}</td>
                     <td>
-                      <Link to={`/clients/${client.id}`} className={styles.btnLink}>
-                        Voir
-                      </Link>
+                      <Link to={`/clients/${client.id}`} className={styles.btnLink}>Voir</Link>
                     </td>
                   </tr>
                 ))

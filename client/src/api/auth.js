@@ -17,3 +17,10 @@ export async function changePassword(currentPassword, newPassword) {
     body: JSON.stringify({ currentPassword, newPassword }),
   });
 }
+
+export async function updateProfile(data) {
+  return apiFetch('/auth/profile', {
+    method: 'PATCH',
+    body: JSON.stringify(data),
+  });
+}

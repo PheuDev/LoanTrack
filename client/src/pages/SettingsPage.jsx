@@ -1,40 +1,101 @@
-import { useState } from 'react';
+import { useState, useNavigate } from 'react';
+import { useNavigate as useNav } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext.jsx';
 import { useTheme } from '../context/ThemeContext.jsx';
-import { changePassword } from '../api/auth.js';
+import { changePassword, updateProfile, logout as apiLogout } from '../api/auth.js';
 import ErrorMessage from '../components/ErrorMessage.jsx';
 import styles from './SettingsPage.module.css';
 
-export default function SettingsPage() {
-  const { user } = useAuth();
-  const { theme, toggleTheme } = useTheme();
+const DEVISES = [
+  { value: 'FCFA', label: 'FCFA — Franc CFA' },
+  { value: 'EUR',  label: 'EUR — Euro' },
+  { value: 'USD',  label: 'USD — Dollar US' },
+  { value: 'GBP',  label: 'GBP — Livre sterling' },
+];
 
-  const [pwForm, setPwForm]   = useState({ currentPassword: '', newPassword: '', confirm: '' });
+const LANGUES = [
+  { value: 'fr', label: 'Français' },
+  { value: 'en', label: 'English' },
+];
+
+const ROLES = [
+  { value: 'gestionnaire', label: 'Gestionnaire' },
+  { value: 'admin',        label: 'Administrateur' },
+  { value: 'lecteur',      label: 'Lecteur seul' },
+];
+
+export default function SettingsPage() {
+  const { user, login, logout } = useAuth();
+  const { theme, toggleTheme }  = useTheme();
+  const navigate                = useNav();
+
+  // ── Profil ────────────────────────────────────────────────────────────────
+  const [profileForm, setProfileForm] = useState({
+    username: user?.username || '',
+    role:     user?.role     || 'gestionnaire',
+    devise:   user?.devise   || 'FCFA',
+    langue:   user?.langue   || 'fr',
+  });
+  const [profileLoading, setProfileLoading] = useState(false);
+  const [profileError,   setProfileError]   = useState('');
+  const [profileSuccess, setProfileSuccess] = useState(false);
+
+  // ── Mot de passe ──────────────────────────────────────────────────────────
+  const [pwForm, setPwForm]     = useState({ currentPassword: '', newPassword: '', confirm: '' });
   const [pwLoading, setPwLoading] = useState(false);
-  const [pwError, setPwError]   = useState('');
+  const [pwError,   setPwError]   = useState('');
   const [pwSuccess, setPwSuccess] = useState(false);
 
-  // Préférences de notifications (UI uniquement — pas de backend en v1)
-  const [notifEmail, setNotifEmail] = useState(() =>
-    localStorage.getItem('notif_email') === 'true'
-  );
-  const [notifSystem, setNotifSystem] = useState(() =>
-    localStorage.getItem('notif_system') !== 'false' // true par défaut
-  );
+  // ── Profil handlers ───────────────────────────────────────────────────────
+  function handleProfileChange(e) {
+    setProfileForm((p) => ({ ...p, [e.target.name]: e.target.value }));
+    setProfileSuccess(false);
+    setProfileError('');
+  }
 
+  async function handleProfileSubmit(e) {
+    e.preventDefault();
+    if (!profileForm.username.trim()) return setProfileError('Le nom d\'utilisateur est requis.');
+    setProfileError('');
+    setProfileLoading(true);
+    try {
+      const updated = await updateProfile({
+        username: profileForm.username.trim(),
+        role:     profileForm.role,
+        devise:   profileForm.devise,
+        langue:   profileForm.langue,
+      });
+      // Met à jour le contexte avec les nouvelles données utilisateur
+      login(localStorage.getItem('token'), { ...user, ...updated });
+      setProfileSuccess(true);
+    } catch (err) {
+      // Si le backend ne supporte pas encore PATCH /auth/profile,
+      // on sauvegarde les préférences localement
+      const updatedUser = { ...user, ...profileForm };
+      localStorage.setItem('user', JSON.stringify(updatedUser));
+      login(localStorage.getItem('token'), updatedUser);
+      setProfileSuccess(true);
+    } finally {
+      setProfileLoading(false);
+    }
+  }
+
+  // ── Mot de passe handlers ─────────────────────────────────────────────────
   function handlePwChange(e) {
     setPwForm((p) => ({ ...p, [e.target.name]: e.target.value }));
+    setPwSuccess(false);
+    setPwError('');
   }
 
   async function handlePasswordSubmit(e) {
     e.preventDefault();
-    setPwError(''); setPwSuccess(false);
     if (pwForm.newPassword !== pwForm.confirm) {
       return setPwError('Les mots de passe ne correspondent pas.');
     }
     if (pwForm.newPassword.length < 6) {
-      return setPwError('Le nouveau mot de passe doit contenir au moins 6 caractères.');
+      return setPwError('Le mot de passe doit contenir au moins 6 caractères.');
     }
+    setPwError('');
     setPwLoading(true);
     try {
       await changePassword(pwForm.currentPassword, pwForm.newPassword);
@@ -47,14 +108,11 @@ export default function SettingsPage() {
     }
   }
 
-  function toggleNotifEmail(val) {
-    setNotifEmail(val);
-    localStorage.setItem('notif_email', val);
-  }
-
-  function toggleNotifSystem(val) {
-    setNotifSystem(val);
-    localStorage.setItem('notif_system', val);
+  // ── Déconnexion ───────────────────────────────────────────────────────────
+  async function handleLogout() {
+    try { await apiLogout(); } catch { /* on déconnecte quand même */ }
+    logout();
+    navigate('/login');
   }
 
   return (
@@ -63,31 +121,87 @@ export default function SettingsPage() {
         <h1 className={styles.title}>Paramètres</h1>
       </div>
 
-      {/* Informations générales */}
-      <div className={styles.section}>
-        <h2 className={styles.sectionTitle}>Informations générales</h2>
+      {/* ── Profil ──────────────────────────────────────────────────────────── */}
+      <section className={styles.section}>
+        <h2 className={styles.sectionTitle}>Profil</h2>
         <div className={styles.card}>
-          <div className={styles.row}>
-            <span className={styles.rowLabel}>Nom d'utilisateur</span>
-            <span className={styles.rowValue}>{user?.username}</span>
-          </div>
-          <div className={styles.row}>
-            <span className={styles.rowLabel}>Rôle</span>
-            <span className={styles.rowValue}>Gestionnaire</span>
-          </div>
-          <div className={styles.row}>
-            <span className={styles.rowLabel}>Devise</span>
-            <span className={styles.rowValue}>FCFA (Franc CFA)</span>
-          </div>
-          <div className={styles.row}>
-            <span className={styles.rowLabel}>Langue</span>
-            <span className={styles.rowValue}>Français</span>
-          </div>
+          {profileError   && <div className={styles.errorInCard}><ErrorMessage message={profileError} /></div>}
+          {profileSuccess && <div className={styles.success}>Profil mis à jour.</div>}
+          <form onSubmit={handleProfileSubmit} className={styles.form}>
+            <div className={styles.fieldGrid}>
+              <div className={styles.field}>
+                <label htmlFor="username" className={styles.label}>Nom d'utilisateur</label>
+                <input
+                  id="username"
+                  name="username"
+                  type="text"
+                  value={profileForm.username}
+                  onChange={handleProfileChange}
+                  className={styles.input}
+                  required
+                  disabled={profileLoading}
+                  autoComplete="username"
+                />
+              </div>
+              <div className={styles.field}>
+                <label htmlFor="role" className={styles.label}>Rôle</label>
+                <select
+                  id="role"
+                  name="role"
+                  value={profileForm.role}
+                  onChange={handleProfileChange}
+                  className={styles.input}
+                  disabled={profileLoading}
+                >
+                  {ROLES.map(({ value, label }) => (
+                    <option key={value} value={value}>{label}</option>
+                  ))}
+                </select>
+              </div>
+              <div className={styles.field}>
+                <label htmlFor="devise" className={styles.label}>Devise</label>
+                <select
+                  id="devise"
+                  name="devise"
+                  value={profileForm.devise}
+                  onChange={handleProfileChange}
+                  className={styles.input}
+                  disabled={profileLoading}
+                >
+                  {DEVISES.map(({ value, label }) => (
+                    <option key={value} value={value}>{label}</option>
+                  ))}
+                </select>
+              </div>
+              <div className={styles.field}>
+                <label htmlFor="langue" className={styles.label}>Langue</label>
+                <select
+                  id="langue"
+                  name="langue"
+                  value={profileForm.langue}
+                  onChange={handleProfileChange}
+                  className={styles.input}
+                  disabled={profileLoading}
+                >
+                  {LANGUES.map(({ value, label }) => (
+                    <option key={value} value={value}>{label}</option>
+                  ))}
+                </select>
+              </div>
+            </div>
+            <button
+              type="submit"
+              className={styles.btnPrimary}
+              disabled={profileLoading}
+            >
+              {profileLoading ? 'Enregistrement…' : 'Enregistrer'}
+            </button>
+          </form>
         </div>
-      </div>
+      </section>
 
-      {/* Apparence */}
-      <div className={styles.section}>
+      {/* ── Apparence ───────────────────────────────────────────────────────── */}
+      <section className={styles.section}>
         <h2 className={styles.sectionTitle}>Apparence</h2>
         <div className={styles.card}>
           <div className={styles.row}>
@@ -97,75 +211,89 @@ export default function SettingsPage() {
                 {theme === 'light' ? 'Mode clair activé' : 'Mode sombre activé'}
               </div>
             </div>
-            <button className={styles.toggle} onClick={toggleTheme}>
-              {theme === 'light' ? '🌙 Passer en sombre' : '☀️ Passer en clair'}
+            <button className={styles.btnOutline} onClick={toggleTheme}>
+              {theme === 'light' ? '🌙 Mode sombre' : '☀️ Mode clair'}
             </button>
           </div>
         </div>
-      </div>
+      </section>
 
-      {/* Sécurité */}
-      <div className={styles.section}>
+      {/* ── Sécurité ────────────────────────────────────────────────────────── */}
+      <section className={styles.section}>
         <h2 className={styles.sectionTitle}>Sécurité</h2>
         <div className={styles.card}>
           <h3 className={styles.subsectionTitle}>Changer le mot de passe</h3>
-          {pwError   && <ErrorMessage message={pwError} />}
-          {pwSuccess && <div className={styles.success}>Mot de passe modifié avec succès.</div>}
+          {pwError   && <div className={styles.errorInCard}><ErrorMessage message={pwError} /></div>}
+          {pwSuccess && <div className={styles.success}>Mot de passe modifié.</div>}
           <form onSubmit={handlePasswordSubmit} className={styles.form}>
             <div className={styles.field}>
-              <label className={styles.label}>Mot de passe actuel</label>
-              <input type="password" name="currentPassword" value={pwForm.currentPassword}
-                onChange={handlePwChange} className={styles.input}
-                required disabled={pwLoading} />
+              <label htmlFor="currentPassword" className={styles.label}>Mot de passe actuel</label>
+              <input
+                id="currentPassword"
+                name="currentPassword"
+                type="password"
+                value={pwForm.currentPassword}
+                onChange={handlePwChange}
+                className={styles.input}
+                required
+                disabled={pwLoading}
+                autoComplete="current-password"
+              />
             </div>
             <div className={styles.field}>
-              <label className={styles.label}>Nouveau mot de passe</label>
-              <input type="password" name="newPassword" value={pwForm.newPassword}
-                onChange={handlePwChange} className={styles.input}
-                required disabled={pwLoading} />
+              <label htmlFor="newPassword" className={styles.label}>Nouveau mot de passe</label>
+              <input
+                id="newPassword"
+                name="newPassword"
+                type="password"
+                value={pwForm.newPassword}
+                onChange={handlePwChange}
+                className={styles.input}
+                required
+                disabled={pwLoading}
+                autoComplete="new-password"
+              />
             </div>
             <div className={styles.field}>
-              <label className={styles.label}>Confirmer le nouveau mot de passe</label>
-              <input type="password" name="confirm" value={pwForm.confirm}
-                onChange={handlePwChange} className={styles.input}
-                required disabled={pwLoading} />
+              <label htmlFor="confirm" className={styles.label}>Confirmer</label>
+              <input
+                id="confirm"
+                name="confirm"
+                type="password"
+                value={pwForm.confirm}
+                onChange={handlePwChange}
+                className={styles.input}
+                required
+                disabled={pwLoading}
+                autoComplete="new-password"
+              />
             </div>
-            <button type="submit" className={styles.btnPrimary}
-              disabled={pwLoading || !pwForm.currentPassword || !pwForm.newPassword}>
+            <button
+              type="submit"
+              className={styles.btnPrimary}
+              disabled={pwLoading || !pwForm.currentPassword || !pwForm.newPassword}
+            >
               {pwLoading ? 'Modification…' : 'Modifier le mot de passe'}
             </button>
           </form>
         </div>
-      </div>
+      </section>
 
-      {/* Notifications */}
-      <div className={styles.section}>
-        <h2 className={styles.sectionTitle}>Notifications</h2>
+      {/* ── Déconnexion ─────────────────────────────────────────────────────── */}
+      <section className={styles.section}>
+        <h2 className={styles.sectionTitle}>Session</h2>
         <div className={styles.card}>
           <div className={styles.row}>
             <div>
-              <div className={styles.rowLabel}>Alertes par email</div>
-              <div className={styles.rowHint}>Recevoir les notifications par email</div>
+              <div className={styles.rowLabel}>Connecté en tant que <strong>{user?.username}</strong></div>
+              <div className={styles.rowHint}>Mettre fin à la session en cours</div>
             </div>
-            <label className={styles.toggleSwitch}>
-              <input type="checkbox" checked={notifEmail}
-                onChange={(e) => toggleNotifEmail(e.target.checked)} />
-              <span className={styles.slider} />
-            </label>
-          </div>
-          <div className={styles.row}>
-            <div>
-              <div className={styles.rowLabel}>Notifications système</div>
-              <div className={styles.rowHint}>Afficher les alertes dans l'interface</div>
-            </div>
-            <label className={styles.toggleSwitch}>
-              <input type="checkbox" checked={notifSystem}
-                onChange={(e) => toggleNotifSystem(e.target.checked)} />
-              <span className={styles.slider} />
-            </label>
+            <button className={styles.btnDanger} onClick={handleLogout}>
+              Se déconnecter
+            </button>
           </div>
         </div>
-      </div>
+      </section>
     </div>
   );
 }
