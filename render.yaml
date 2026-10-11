@@ -4,7 +4,7 @@ services:
     runtime: node
     plan: free
     region: frankfurt
-    buildCommand: npm ci --prefix server --include=dev && npm ci --prefix client --include=dev && npm run build --prefix client
+    buildCommand: npm ci --prefix server --production=false && npm ci --prefix client --production=false && npm run build --prefix client
     startCommand: npm run db:push --prefix server && npm start --prefix server
     healthCheckPath: /health
     envVars:
