@@ -1,0 +1,18 @@
+services:
+  - type: web
+    name: loantrack-flexiloan
+    runtime: node
+    plan: free
+    region: frankfurt
+    buildCommand: npm ci --prefix server --include=dev && npm ci --prefix client && npm run build --prefix client
+    startCommand: npm run db:push --prefix server && npm start --prefix server
+    healthCheckPath: /health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DATABASE_URL
+        sync: false
+      - key: DATABASE_SSL
+        value: "true"
+      - key: JWT_SECRET
+        generateValue: true

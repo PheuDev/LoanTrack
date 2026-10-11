@@ -9,6 +9,7 @@ import * as schema from './schema.js';
 // plutôt que d'ouvrir/fermer une connexion à chaque requête.
 const pool = mysql.createPool({
   uri: process.env.DATABASE_URL,
+  ...(process.env.DATABASE_SSL === 'true' ? { ssl: { minVersion: 'TLSv1.2' } } : {}),
   // Unicode complet (accents, emojis…)
   charset: 'UTF8MB4_UNICODE_CI',
 });

@@ -1,7 +1,7 @@
 // Fonctions utilitaires pour les appels API.
 // Toutes les fonctions des autres fichiers api/ s'appuient sur celles-ci.
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3001';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || (import.meta.env.PROD ? '' : 'http://localhost:3001');
 
 // Retourne les en-têtes communs à toutes les requêtes authentifiées
 export function getAuthHeaders() {
