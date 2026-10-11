@@ -5,7 +5,7 @@ services:
     plan: free
     region: frankfurt
     buildCommand: npm ci --prefix server --production=false && npm ci --prefix client --production=false && npm run build --prefix client
-    startCommand: npm run db:push --prefix server && npm start --prefix server
+    startCommand: npm start --prefix server
     healthCheckPath: /health
     envVars:
       - key: NODE_ENV
